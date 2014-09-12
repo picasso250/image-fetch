@@ -1,12 +1,7 @@
 <?php
 
-function image_save($name, $url)
-{
-    if (is_file($name)) {
-        return false;
-    }
-    return file_put_contents($name, file_get_contents($url));
-}
+require 'lib.php';
+
 
 function fetch_page($page_url)
 {
@@ -36,5 +31,5 @@ if (!preg_match_all('%<a href="/(post/\d+.html)"%i', $html, $matches)) {
 foreach ($matches[1] as $link) {
     $link = $root.$link;
     echo "fetch $link\n";
-    fetch_page($link);
+    fetch_page($link, '/<img src2="([^"]+?)"/i');
 }
