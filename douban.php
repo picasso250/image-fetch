@@ -13,12 +13,13 @@ function fetch_url($url)
     return $ret;
 }
 
-function fetch_page($page_url, $pattern)
+function fetch_page($page_url)
 {
     $html = fetch_url($page_url);
     // echo $html;
-    if (!preg_match_all($pattern, $html, $matches)) {
-        throw new Exception("no img", 1);
+    if (!preg_match_all('%<img src="([^"]+.douban.com/view/group_topic/large/public/p\d+.jpg)"%i', $html, $matches)) {
+        echo "no image in this page\n";
+        return false;
     }
     foreach ($matches[1] as $image_url) {
         $file_name = substr($image_url, strrpos($image_url, '/')+1);
@@ -33,13 +34,13 @@ function fetch_page($page_url, $pattern)
     return count($matches[1]);
 }
 
-
-fetch_page('http://www.douban.com/group/topic/62688497/', '%<img src="([^"]+.douban.com/view/group_topic/large/public/p\d+.jpg)"%i');
-
-// file_get_contents('http://www.douban.com/group/topic/62688497/');
-$url = 'http://www.douban.com/group/topic/62688497/';
-
-// $ch = curl_init($url);
-// curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.94 Safari/537.36');
-// curl_exec($ch);
-// curl_close($ch);
+$group_root = 'http://www.douban.com/group/haixiuzu/';
+$html = fetch_url($group_root);
+// echo $html;
+if (!preg_match_all('%<a href="(http://www.douban.com/group/topic/\d+/)"%i', $html, $matches)) {
+    throw new Exception("no link for group topic", 1);
+}
+foreach ($matches[1] as $topic_url) {
+    echo "fetch topic $topic_url\n";
+    fetch_page($topic_url);
+}
