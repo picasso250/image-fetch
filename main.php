@@ -2,6 +2,9 @@
 
 function image_save($name, $url)
 {
+    if (is_file($name)) {
+        return false;
+    }
     return file_put_contents($name, file_get_contents($url));
 }
 
@@ -14,12 +17,16 @@ function fetch_page($page_url)
     }
     foreach ($matches[1] as $image_url) {
         $file_name = substr($image_url, strrpos($image_url, '/')+1);
+        $file_name = __DIR__.'/images/'.$file_name;
+        if (is_file($file_name)) {
+            echo "skip $file_name\n";
+            continue;
+        }
         echo "save $file_name \n";
         image_save($file_name, $image_url);
     }
     return count($matches[1]);
 }
-$page_url = 'http://www.moko.cc/post/1031624.html';
 
 $root = 'http://www.moko.cc/';
 $html = file_get_contents($root);
