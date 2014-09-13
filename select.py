@@ -11,14 +11,14 @@ import webbrowser
 from PIL import Image
 import kv
 
-kv_data = kv.get()
+attitude = kv.get('attitude')
 root = 'images'
 files = os.listdir(root)
 # print(files)
 for f in files:
     f = root+'/'+f
-    if f in kv_data:
-        print('u',kv_data[f],f)
+    if f in attitude:
+        print('u',attitude[f],f)
         continue
     if not os.path.isfile(f):
         print('warning', f, 'is not file')
@@ -32,21 +32,39 @@ for f in files:
         pass
     finally:
         pass
-    prompt = 'Like this image '+f+'? [Like/Delete/Pass/Open/LikeAll] '
-    page_key = 'page of '+f
-    can_open = page_key in kv_data
+    prompt = 'Like image '+f+'? [Pass/Like/Delete] '
+    image_page = kv.get('image_page')
+    can_open = f in image_page
+    if can_open:
+        prompt = 'Like image '+f+'? [Pass/Like/Delete/Open/LikeAll/DeleteAll] '
+        page_url = image_page[f]
 
     while True:
         action = input(prompt)
-        kv_data[f] = action
+        if action == '':
+            print('default is Pass')
+            action = 'p'
+        attitude[f] = action
         if action == 'd':
             print('delete', f)
             os.remove(f)
+        if action == 'la' or action == 'da':
+            if can_open:
+                action = action[0]
+                page_images = kv.get('page_images')
+                images = page_images[page_url]
+                for image in images:
+                    print(action, image)
+                    attitude[image] = action
+            else:
+                print('error, can not do to all')
 
         if action == 'o':
             if can_open:
-                webbrowser.open(kv_data[page_key])
+                webbrowser.open(page_url)
+            else:
+                print('error, can not open')
         else:
             break
 
-    kv.save(kv_data)
+    kv.save('attitude', attitude)

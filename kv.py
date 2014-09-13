@@ -3,9 +3,8 @@
 import os
 import json
 
-info_file = 'info.json'
-
-def get():
+def get(table = 'info'):
+    info_file = table+'.json'
     if os.path.isfile(info_file):
         f = open(info_file, 'r')
         file_table = json.load(f)
@@ -14,7 +13,8 @@ def get():
         file_table = {}
     return file_table
 
-def save(file_table):
+def save(table, data):
+    info_file = table+'.json'
     f = open(info_file, 'w')
-    json.dump(file_table, f)
+    json.dump(data, f)
     f.close()

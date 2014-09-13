@@ -33,12 +33,17 @@ def fetch_page(page_url):
     if match is None:
         print( "no image in this page\n")
         return False
-    file_table = kv.get()
+    file_table = kv.get('attitude')
+    page_images = kv.get('page_images')
+    image_page = kv.get('image_page')
     for image_url in match:
         file_name = image_url[image_url.rfind('/')+1:]
         file_name = 'images/'+file_name
-        file_table['page of '+file_name] = page_url
-        kv.save(file_table)
+        image_page[file_name] = page_url
+        page_images.setdefault(page_url, []).append(file_name)
+        page_images[page_url] = list(set(page_images[page_url]))
+        kv.save('page_images', page_images)
+        kv.save('image_page', image_page)
         if file_name in file_table:
             if file_table[file_name] == 'd':
                 print('hate', file_name)
