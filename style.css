@@ -1,0 +1,7 @@
+.entry {
+    border: 1px solid;
+    display: inline-block;
+}
+span {
+    cursor: default;
+}

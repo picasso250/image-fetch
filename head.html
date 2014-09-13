@@ -1,0 +1,19 @@
+<link rel="stylesheet" type="text/css" href="style.css">
+<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/2.0.3/jquery-2.0.3.min.js"></script>
+<script type="text/javascript">
+$(function () {
+    $('.btn').click(function () {
+        var $this = $(this);
+        var data = {
+            action: $this.data('action'),
+            file: $this.data('file')
+        };
+        $.post('/', data, function (ret) {
+            console.log(ret);
+            if (ret.code === 0) {
+                $this.parents('.entry').hide('fast');
+            }
+        }, 'json');
+    });
+});
+</script>

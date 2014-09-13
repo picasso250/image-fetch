@@ -12,6 +12,10 @@ from PIL import Image
 import kv
 
 attitude = kv.get('attitude')
+for f in attitude:
+    if len(attitude[f]) > 1:
+        print(attitude[f],'==>',attitude[f][0])
+        attitude[f] = attitude[f][0]
 root = 'images'
 files = os.listdir(root)
 # print(files)
@@ -23,11 +27,17 @@ for f in files:
     if not os.path.isfile(f):
         print('warning', f, 'is not file')
         continue
-    img = Image.open(f)
     try:
+        img = Image.open(f)
         img.show()
+    except OSError as e:
+        print('OSError')
+        attitude[f] = 'd'
+        continue
     except IOError as e:
         print('IOError')
+        attitude[f] = 'd'
+        continue
     else:
         pass
     finally:
@@ -54,10 +64,14 @@ for f in files:
                 page_images = kv.get('page_images')
                 images = page_images[page_url]
                 for image in images:
-                    print(action, image)
-                    attitude[image] = action
+                    if image not in attitude:
+                        print(action, image)
+                        attitude[image] = action
+                    else:
+                        print('u already',attitude[image],image)
             else:
                 print('error, can not do to all')
+                continue
 
         if action == 'o':
             if can_open:

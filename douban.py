@@ -57,7 +57,7 @@ def fetch_page(page_url):
 group_root = 'http://www.douban.com/group/haixiuzu/';
 html = fetch_url(group_root);
 html = html.decode()
-print( html)
+# print( html)
 matches = re.findall('<a href="(http://www.douban.com/group/topic/\d+/)"', html)
 if matches is None:
     raise Exception("no link for group topic")
