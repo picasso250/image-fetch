@@ -8,13 +8,9 @@
 
 import os
 from PIL import Image
+import attitude
 
-info_file = 'info.json'
-if os.path.isfile(info_file):
-    file_table = json.load(open(info_file, 'r'))
-else:
-    file_table = {}
-
+file_table = attitude.get()
 root = 'images'
 files = os.listdir(root)
 # print(files)
@@ -28,6 +24,4 @@ for f in files:
     action = input('Like this image? [Like/Delete/Pass] ')
     file_table[f] = action
 
-    file_t = open('info.json', 'w')
-    json.dump(file_table, file_t)
-    file_t.close()
+    attitude.save(file_table)
