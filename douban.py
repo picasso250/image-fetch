@@ -4,7 +4,7 @@
 import os, re
 import urllib.request
 import urllib.parse
-import attitude
+import kv
 
 class AppURLopener(urllib.request.FancyURLopener):
     version = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.94 Safari/537.36'
@@ -33,10 +33,12 @@ def fetch_page(page_url):
     if match is None:
         print( "no image in this page\n")
         return False
-    file_table = attitude.get()
+    file_table = kv.get()
     for image_url in match:
         file_name = image_url[image_url.rfind('/')+1:]
         file_name = 'images/'+file_name
+        file_table['page of '+file_name] = page_url
+        kv.save(file_table)
         if file_name in file_table:
             if file_table[file_name] == 'd':
                 print('hate', file_name)
