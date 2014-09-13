@@ -3,31 +3,31 @@
 
 # apt-get install python3-tk
 # pip-3.2 install Pillow
+# apt-get install python3-pil
+# sudo apt-get install python3-pil.imagetk
 
-import tkinter as tk
+import os
+from PIL import Image
 
-class Application(tk.Frame):
-    def __init__(self, master=None):
-        tk.Frame.__init__(self, master)
-        self.pack()
-        self.createWidgets()
+info_file = 'info.json'
+if os.path.isfile(info_file):
+    file_table = json.load(open(info_file, 'r'))
+else:
+    file_table = {}
 
-    def createWidgets(self):
-        image = tk.PhotoImage(file='a.jpg')
-        self.canvas = tk.Canvas(self)
-        self.canvas.create_image (0, 0, anchor=tk.NW, image=image, tags="bg_img")
-        self.hi_there = tk.Button(self)
-        self.hi_there["text"] = "Hello World\n(click me)"
-        self.hi_there["command"] = self.say_hi
-        self.hi_there.pack(side="top")
+root = 'images'
+files = os.listdir(root)
+# print(files)
+for f in files:
+    f = root+'/'+f
+    if not os.path.isfile(f):
+        print('warning', f, 'is not file')
+        continue
+    img = Image.open(f)
+    img.show();
+    action = input('Like this image? [Like/Delete/Pass] ')
+    file_table[f] = action
 
-        self.QUIT = tk.Button(self, text="QUIT", fg="red",
-                                            command=root.destroy)
-        self.QUIT.pack(side="bottom")
-
-    def say_hi(self):
-        print("hi there, everyone!")
-
-root = tk.Tk()
-app = Application(master=root)
-app.mainloop()
+    file_t = open('info.json', 'w')
+    json.dump(file_table, file_t)
+    file_t.close()
