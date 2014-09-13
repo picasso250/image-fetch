@@ -4,13 +4,14 @@
 $(function () {
     $('.btn').click(function () {
         var $this = $(this);
+        var action = $this.data('action');
         var data = {
-            action: $this.data('action'),
+            action: action,
             file: $this.data('file')
         };
         $.post('/', data, function (ret) {
             console.log(ret);
-            if (ret.code === 0) {
+            if (ret.code === 0 && action === 'delete') {
                 $this.parents('.entry').hide('fast');
             }
         }, 'json');

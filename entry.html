@@ -3,5 +3,8 @@
     <div>
         <span class="btn btn-like" data-file="<?= $f ?>" data-action="like">like</span>
         <span class="btn btn-delete" data-file="<?= $f ?>" data-action="delete">delete</span>
+        <?php if (isset($image_page[$f])): ?>
+        <a href="<?= $image_page[$f] ?>" target="_blank">link</a>
+        <?php endif ?>
     </div>
 </div>
