@@ -23,7 +23,14 @@ for f in files:
         print('warning', f, 'is not file')
         continue
     img = Image.open(f)
-    img.show();
+    try:
+        img.show()
+    except IOError as e:
+        print('IOError')
+    else:
+        pass
+    finally:
+        pass
     action = input('Like this image? [Like/Delete/Pass] ')
     file_table[f] = action
     if action == 'd':

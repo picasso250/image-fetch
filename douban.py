@@ -39,7 +39,7 @@ def fetch_page(page_url):
         file_name = 'images/'+file_name
         if file_name in file_table:
             if file_table[file_name] == 'd':
-                print('hate'+file_name)
+                print('hate', file_name)
                 continue
         if os.path.isfile(file_name):
             print( "skip",file_name)
