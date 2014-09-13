@@ -28,7 +28,7 @@ def fetch_url(url):
 def fetch_page(page_url):
     html = fetch_url(page_url)
     html = html.decode()
-    print( html)
+    # print( html)
     match = re.findall(r'<img src="([^"]+.douban.com/view/group_topic/large/public/p\d+\.jpg)"', html)
     if match is None:
         print( "no image in this page\n")

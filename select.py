@@ -16,6 +16,9 @@ files = os.listdir(root)
 # print(files)
 for f in files:
     f = root+'/'+f
+    if f in file_table:
+        print('u',file_table[f],f)
+        continue
     if not os.path.isfile(f):
         print('warning', f, 'is not file')
         continue
@@ -23,5 +26,8 @@ for f in files:
     img.show();
     action = input('Like this image? [Like/Delete/Pass] ')
     file_table[f] = action
+    if action == 'd':
+        print('delete', f)
+        os.remove(f)
 
     attitude.save(file_table)
