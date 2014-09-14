@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
 <script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/2.0.3/jquery-2.0.3.min.js"></script>
 <script type="text/javascript">
 $(function () {
@@ -9,7 +9,7 @@ $(function () {
             action: action,
             file: $this.data('file')
         };
-        $.post('/', data, function (ret) {
+        $.post('/cgi-bin/change.py', data, function (ret) {
             console.log(ret);
             if (ret.code === 0 && action === 'delete') {
                 $this.parents('.entry').hide('fast');

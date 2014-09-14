@@ -1,29 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
-import kv
-import webbrowser
+import http.server
 
-tag_list = []
-attitude = kv.get('attitude')
-print(attitude)
-root = 'images'
-files = os.listdir(root)
-for name in files:
-    f = root+'/'+name
-    if attitude.get(f) == 'l':
-        tag_list.append('<img src="'+f+'">')
+def run(server_class=http.server.HTTPServer, handler_class=BaseHTTPRequestHandler):
+    server_address = ('', 8080)
+    httpd = server_class(server_address, handler_class)
+    httpd.serve_forever()
 
-print(tag_list)
-html = '\n'.join(tag_list)
-print(html)
-
-show_file = 'show.html'
-f = open(show_file, 'w')
-f.write(html)
-f.close()
-
-url = 'file://'+os.getcwd()+'/'+show_file
-print(url)
-webbrowser.open(url)
+class MyHanlder(http.server.BaseHTTPRequestHandler):
+    """docstring for MyServer"""
+    def __init__(self):
+        super(MyHanlder, self).__init__()
+    def do_GET():
+        pass
+        
+run()
