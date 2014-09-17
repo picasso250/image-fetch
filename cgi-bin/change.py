@@ -1,10 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 
 import os
 import kv
 import cgi
 import json
+import log
 
 # enable debugging
 import cgitb
