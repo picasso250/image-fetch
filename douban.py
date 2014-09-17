@@ -1,7 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os, re
+import os, re, sys
 import urllib.request
 import urllib.parse
 import kv
@@ -54,7 +54,11 @@ def fetch_page(page_url):
         print( "save",file_name)
         urllib.request.urlretrieve(image_url, file_name)
 
-group_root = 'http://www.douban.com/group/haixiuzu/';
+if len(sys.argv) < 2:
+    douban_group_name = 'haixiuzu'
+else:
+    douban_group_name = sys.argv[1]
+group_root = 'http://www.douban.com/group/%s/' % douban_group_name;
 html = fetch_url(group_root);
 html = html.decode()
 # print( html)
