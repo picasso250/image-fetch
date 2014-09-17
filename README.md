@@ -15,7 +15,7 @@ image-fetch
 python3 -m http.server --cgi 8000
 ```
 
-然后访问 `http://localhost:8000/cgi-bin/show.py`
+然后访问 `http://localhost:8000/cgi-bin/show.py?all`
 
 
 有删除功能
